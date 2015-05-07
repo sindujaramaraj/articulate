@@ -1,11 +1,19 @@
-from flask import Flask
+from flask import Flask,request
 import authenticate
 
 app = Flask(__name__)
 
-@app.route("/login")
+@app.route("signup", methods=['POST'])
+def signup():
+    email = request.args["email"]
+    password = request.args["password"]
+    return authenticate.signup(username, password)
+    
+@app.route("/login", methods=['POST'])
 def login():
-    authenticate.login()
+    email = request.args["email"]
+    password = request.args["password"]
+    return authenticate.login(username, password)
 
 @app.route("/fetch")
 def fetch():
@@ -34,5 +42,8 @@ def remove_link():
 @app.route("/share")
 def share():
     """Provide a sharable content based on device"""
-    return True    
+    return True
+
+if __name__ == "__main__":
+    app.run()    
     
